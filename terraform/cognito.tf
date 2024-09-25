@@ -36,6 +36,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   # Fluxos de autenticação permitidos
   explicit_auth_flows = [
     "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_ADMIN_USER_PASSWORD_AUTH",
     "ALLOW_REFRESH_TOKEN_AUTH",
     "ALLOW_CUSTOM_AUTH"
   ]

@@ -70,7 +70,7 @@ resource "aws_api_gateway_integration" "signup_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.signup.id
   http_method             = aws_api_gateway_method.signup_post.http_method
-  type                    = "AWS_PROXY"
+  type                    = "AWS_PROXY" # "HTTP_PROXY"
   integration_http_method = "POST"
-  uri                     = aws_lambda_function.lambda_function.invoke_arn
+  uri                     = aws_lambda_function.lambda_function.invoke_arn # Endereço do seu Load Balancer
 }

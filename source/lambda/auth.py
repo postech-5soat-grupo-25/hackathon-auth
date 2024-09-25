@@ -8,7 +8,6 @@ client = boto3.client("cognito-idp")
 USER_POOL_ID = os.environ["COGNITO_USER_POOL_ID"]
 CLIENT_ID = os.environ["COGNITO_CLIENT_ID"]
 
-
 def lambda_handler(event, context):
     try:
         # Captura o e-mail e a senha do corpo da requisição
@@ -17,27 +16,35 @@ def lambda_handler(event, context):
         password = body["password"]
 
         # Tenta autenticar o usuário usando as variáveis de ambiente
-        response = client.admin_initiate_auth(
-            UserPoolId=USER_POOL_ID,
+        response = client.initiate_auth(
             ClientId=CLIENT_ID,
-            AuthFlow="ADMIN_NO_SRP_AUTH",
+            AuthFlow="USER_PASSWORD_AUTH",
             AuthParameters={"USERNAME": email, "PASSWORD": password},
         )
 
-        # Retorna o token de autenticação
-        return {
-            "statusCode": 200,
-            "body": json.dumps(
-                {
-                    "message": "Usuário autenticado com sucesso!",
-                    "token": response["AuthenticationResult"]["IdToken"],
-                }
-            ),
-        }
+        # Verifica se 'AuthenticationResult' está presente na resposta
+        if "AuthenticationResult" in response:
+            return {
+                "statusCode": 200,
+                "body": json.dumps(
+                    {
+                        "message": "Usuário autenticado com sucesso!",
+                        "token": response["AuthenticationResult"]["IdToken"],
+                    }
+                ),
+            }
+        else:
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"message": "Erro na autenticação", "response": response}),
+            }
     except client.exceptions.NotAuthorizedException:
         return {
             "statusCode": 401,
-            "body": json.dumps({"message": "Credenciais inválidas"}),
+            "body": json.dumps({"message": "Credenciais inválidas", "response": str(response)}),
         }
-    except Exception as e:
-        return {"statusCode": 400, "body": json.dumps({"message": str(e)})}
+    except Exception as error:
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"message": str(error), "response": str(response)}),
+        }
