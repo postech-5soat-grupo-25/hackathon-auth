@@ -1,3 +1,8 @@
+variable "email" {
+  description = "E-mail do grupo"
+  default     = "postech-5soat-grupo-25@googlegroups.com"
+}
+
 # AWS Cognito
 variable "aws_cognito_user_pool_name" {
   description = "Nome do User Pool Cognito"
@@ -27,7 +32,12 @@ variable "aws_api_gateway_rest_api_name" {
 }
 
 # AWS Lambda
-variable "aws_lambda_function_name" {
-  description = "Nome da Lambda function"
+variable "aws_lambda_function_auth_name" {
+  description = "Nome da Lambda function para Autenticação"
   default     = "hackathon-auth"
+}
+
+variable "aws_lambda_function_email_name" {
+  description = "Nome da Lambda function para envio de e-mail"
+  default     = "hackathon-email"
 }

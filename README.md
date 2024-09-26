@@ -1,6 +1,6 @@
 # `Hackathon` | PosTech 5SOAT • Grupo 25
 
-![infra](https://img.shields.io/badge/infra-blue?color=%23d63865) ![python](https://img.shields.io/badge/Python-505050?logo=python&logoColor=FFFFFF&labelColor=3776AB) ![terraform](https://img.shields.io/badge/Terraform-505050?logo=terraform&logoColor=FFFFFF&labelColor=844FBA) ![aws](https://img.shields.io/badge/Amazon%20Web%20Services-505050?logo=amazonwebservices&logoColor=FFFFFF&labelColor=FF9900)
+![infra](https://img.shields.io/badge/infra-blue?color=%23d63865) ![python](https://img.shields.io/badge/Python-505050?logo=python&logoColor=FFFFFF&labelColor=3776AB) ![terraform](https://img.shields.io/badge/Terraform-505050?logo=terraform&logoColor=FFFFFF&labelColor=844FBA) ![aws](https://img.shields.io/badge/Amazon%20Web%20Services-505050?logo=amazonwebservices&logoColor=FFFFFF&labelColor=FF9900) [![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=postech-5soat-grupo-25_hackathon-infra&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=postech-5soat-grupo-25_hackathon-infra)
 
 ## Sobre o Projeto
 
