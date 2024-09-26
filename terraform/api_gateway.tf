@@ -46,7 +46,32 @@ resource "aws_api_gateway_integration" "login_integration" {
   http_method             = aws_api_gateway_method.login_post.http_method
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
-  uri                     = aws_lambda_function.lambda_function.invoke_arn
+  uri                     = aws_lambda_function.lambda_function_auth.invoke_arn
+}
+
+# /email
+resource "aws_api_gateway_resource" "email" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
+  path_part   = "email"
+}
+
+# POST /email
+resource "aws_api_gateway_method" "email_post" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.email.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+# POST /email Integration
+resource "aws_api_gateway_integration" "email_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.email.id
+  http_method             = aws_api_gateway_method.email_post.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = aws_lambda_function.lambda_function_email.invoke_arn
 }
 
 # /signup
@@ -70,7 +95,7 @@ resource "aws_api_gateway_integration" "signup_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.signup.id
   http_method             = aws_api_gateway_method.signup_post.http_method
-  type                    = "AWS_PROXY" # "HTTP_PROXY"
   integration_http_method = "POST"
-  uri                     = aws_lambda_function.lambda_function.invoke_arn # Endereço do seu Load Balancer
+  type                    = "AWS_PROXY"                                         # "HTTP_PROXY"
+  uri                     = aws_lambda_function.lambda_function_auth.invoke_arn # DNS do Load Balancer
 }
