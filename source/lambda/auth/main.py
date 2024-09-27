@@ -41,10 +41,10 @@ def lambda_handler(event, context):
     except client.exceptions.NotAuthorizedException:
         return {
             "statusCode": 401,
-            "body": json.dumps({"message": "Credenciais inválidas", "response": str(response)}),
+            "body": json.dumps({"message": "Credenciais inválidas"}),
         }
     except Exception as error:
         return {
             "statusCode": 400,
-            "body": json.dumps({"message": str(error), "response": str(response)}),
+            "body": json.dumps({"message": str(error)}),
         }

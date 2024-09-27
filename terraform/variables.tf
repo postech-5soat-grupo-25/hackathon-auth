@@ -1,6 +1,6 @@
 variable "email" {
   description = "E-mail do grupo"
-  default     = "postech-5soat-grupo-25@googlegroups.com"
+  default     = "postech-5soat-grupo-25@grr.la"
 }
 
 # AWS Cognito
