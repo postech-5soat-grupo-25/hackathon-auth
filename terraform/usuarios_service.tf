@@ -51,8 +51,8 @@ resource "aws_ecs_task_definition" "usuarios_task" {
   family                   = "usuarios"
   network_mode             = "awsvpc"  # Usar o modo de rede awsvpc para Fargate
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "256"    # Ajuste para Fargate, por exemplo: 256 CPU
-  memory                   = "512"    # Ajuste para Fargate, por exemplo: 512 MB de memória
+  cpu                      = "512"    # Ajuste para Fargate, por exemplo: 256 CPU
+  memory                   = "1024"    # Ajuste para Fargate, por exemplo: 512 MB de memória
 
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
@@ -61,6 +61,8 @@ resource "aws_ecs_task_definition" "usuarios_task" {
       name  = "usuarios-app"
       image = "${aws_ecr_repository.usuarios_ecr.repository_url}:latest"
       essential = true
+      cpu                      = 512
+      memory                   = 1024
 
       logConfiguration = {
         logDriver = "awslogs"
@@ -79,19 +81,7 @@ resource "aws_ecs_task_definition" "usuarios_task" {
         {
           name  = "NODE_ENV"
           value = "production"
-        },
-        {
-          name  = "AWS_ACCESS_KEY_ID"
-          value = ""
-        },
-                {
-          name  = "AWS_SECRET_ACCESS_KEY"
-          value = ""
-        },
-                {
-          name  = "AWS_DEFAULT_REGION"
-          value = "us-east-1"
-        },
+        }
       ]
 
       portMappings = [{
@@ -111,7 +101,7 @@ resource "aws_lb_target_group" "usuarios_service_target_group" {
   target_type = "ip"   # Alterado para "ip" para compatibilidade com o awsvpc network mode
 
   health_check {
-    path                = "/health"
+    path                = "/usuarios-service/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2

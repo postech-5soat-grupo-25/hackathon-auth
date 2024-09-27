@@ -4,8 +4,8 @@ resource "aws_ecs_cluster" "hackathon_ecs_cluster" {
 
 resource "aws_launch_template" "ecs_instance_template" {
   name_prefix   = "ecs-template-"
-  image_id      = "ami-0c55b159cbfafe1f0" # Amazon ECS-optimized Amazon Linux 2 AMI
-  instance_type = "t2.micro"
+  image_id      = "ami-0ebfd941bbafe70c6" # Amazon ECS-optimized Amazon Linux 2 AMI
+  instance_type = "t2.medium"
 
   network_interfaces {
     associate_public_ip_address = true
