@@ -41,12 +41,18 @@ resource "aws_ecs_service" "usuarios_service" {
 }
 
 
+resource "aws_cloudwatch_log_group" "usuario_service_logs" {
+  name              = "/ecs/usuarios-service"
+  retention_in_days = 1
+}
+
+
 resource "aws_ecs_task_definition" "usuarios_task" {
   family                   = "usuarios"
   network_mode             = "awsvpc"  # Usar o modo de rede awsvpc para Fargate
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "256"    # Ajuste para Fargate, por exemplo: 256 CPU
-  memory                   = "512"    # Ajuste para Fargate, por exemplo: 512 MB de memória
+  cpu                      = "512"    # Ajuste para Fargate, por exemplo: 256 CPU
+  memory                   = "1024"    # Ajuste para Fargate, por exemplo: 512 MB de memória
 
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
@@ -55,6 +61,28 @@ resource "aws_ecs_task_definition" "usuarios_task" {
       name  = "usuarios-app"
       image = "${aws_ecr_repository.usuarios_ecr.repository_url}:latest"
       essential = true
+      cpu                      = 512
+      memory                   = 1024
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = "/ecs/usuarios-service"
+          "awslogs-region"        = "us-east-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+
+      environment = [
+        {
+          name  = "USERPOOL_ID"
+          value = aws_cognito_user_pool.user_pool.id
+        },
+        {
+          name  = "NODE_ENV"
+          value = "production"
+        }
+      ]
 
       portMappings = [{
         containerPort = 8080
@@ -73,7 +101,7 @@ resource "aws_lb_target_group" "usuarios_service_target_group" {
   target_type = "ip"   # Alterado para "ip" para compatibilidade com o awsvpc network mode
 
   health_check {
-    path                = "/usuarios-service"
+    path                = "/usuarios-service/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
