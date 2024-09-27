@@ -21,6 +21,10 @@ resource "aws_ecs_service" "agendamento_service" {
   depends_on = [aws_lb_listener.ecs_listener]
 }
 
+resource "aws_cloudwatch_log_group" "agendamento_service_logs" {
+  name              = "/ecs/agendamento-service"
+  retention_in_days = 1
+}
 
 resource "aws_ecs_task_definition" "agendamento_task" {
   family                   = "agendamento"
@@ -36,6 +40,15 @@ resource "aws_ecs_task_definition" "agendamento_task" {
       name  = "agendamento-app"
       image = "${aws_ecr_repository.agendamento_ecr.repository_url}:latest"
       essential = true
+  
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = "/ecs/agendamento-service"
+          "awslogs-region"        = "us-east-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
 
       portMappings = [{
         containerPort = 80
