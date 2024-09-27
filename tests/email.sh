@@ -1,11 +1,11 @@
 #!/bin/bash
 
-API_GATEWAY_ID="..."
+API_GATEWAY_ID="5mbaqjqh39"
 SES_REGION="us-east-1"
-FROM_EMAIL="..."
-TO_EMAIL="..."  # E-mail do médico a ser enviado
-NOME_MEDICO="Dr. João"  # Nome do médico
-NOME_PACIENTE="Alan"  # Nome do paciente
+FROM_EMAIL="postech-5soat-grupo-25@grr.la"
+TO_EMAIL="<EMAIL_MEDICO>"  # E-mail do médico a ser enviado (verificado no SES)
+NOME_MEDICO="Fulano"  # Nome do médico
+NOME_PACIENTE="Ciclano"  # Nome do paciente
 DATA="2024-09-30"  # Data da consulta
 HORARIO="14:00"  # Horário da consulta
 

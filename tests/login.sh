@@ -1,9 +1,9 @@
 #!/bin/bash
 
-API_GATEWAY_ID="..."
-USER_POOL_ID="..."
-USERNAME="..."
-PASSWORD="..."
+API_GATEWAY_ID="5mbaqjqh39"
+USER_POOL_ID="us-east-1_NsXzMDlGr"
+USERNAME="<EMAIL_USUARIO>"
+PASSWORD="<SENHA_USUARIO>"
 
 # Cria o usuário com uma senha temporária
 echo "Criando o usuário..."
