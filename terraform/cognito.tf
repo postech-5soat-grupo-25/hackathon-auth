@@ -2,6 +2,10 @@
 resource "aws_cognito_user_pool" "user_pool" {
   name = var.aws_cognito_user_pool_name
 
+  lambda_config {
+    pre_sign_up = aws_lambda_function.lambda_pre_signup.arn
+  }
+
   # Auto-verifica o e-mail durante o registro
   auto_verified_attributes = ["email"]
 

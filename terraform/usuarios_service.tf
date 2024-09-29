@@ -81,6 +81,10 @@ resource "aws_ecs_task_definition" "usuarios_task" {
         {
           name  = "NODE_ENV"
           value = "production"
+        },
+        {
+          name  = "PORT"
+          value = "8080"
         }
       ]
 
@@ -101,7 +105,7 @@ resource "aws_lb_target_group" "usuarios_service_target_group" {
   target_type = "ip"   # Alterado para "ip" para compatibilidade com o awsvpc network mode
 
   health_check {
-    path                = "/usuarios-service/health"
+    path                = "/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2

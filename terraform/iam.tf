@@ -27,6 +27,9 @@ resource "aws_iam_policy" "lambda_auth_cognito_policy" {
     Statement = [
       {
         Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
           "cognito-idp:AdminCreateUser",
           "cognito-idp:AdminInitiateAuth",
           "cognito-idp:AdminAddUserToGroup",
@@ -87,6 +90,9 @@ resource "aws_iam_policy" "lambda_email_ses_policy" {
       {
         Effect = "Allow",
         Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
           "ses:SendEmail",
           "ses:SendRawEmail",
           "ses:ListVerifiedEmailAddresses",

@@ -50,6 +50,29 @@ resource "aws_ecs_task_definition" "agendamento_task" {
         }
       }
 
+      environment = [
+        {
+          name  = "DB_HOST"
+          value = "hackathon-db.cx6k4wiowwza.us-east-1.rds.amazonaws.com"
+        },
+        {
+          name  = "DB_PORT"
+          value = "5432"
+        },
+        {
+          name  = "DB_USER"
+          value = "mainuser"
+        },
+        {
+          name  = "DB_PASSWD"
+          value = "mainpassword"
+        },
+        {
+          name  = "DB_NAME"
+          value = "HackathonDb"
+        }
+      ]
+
       portMappings = [{
         containerPort = 80
         hostPort      = 80

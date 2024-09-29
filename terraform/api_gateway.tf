@@ -98,29 +98,3 @@ resource "aws_api_gateway_integration" "signup_integration" {
   type                    = "AWS_PROXY"                                         # "HTTP_PROXY"
   uri                     = aws_lambda_function.lambda_function_auth.invoke_arn # DNS do Load Balancer
 }
-
-
-# /health
-resource "aws_api_gateway_resource" "health" {
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
-  path_part   = "health"
-}
-
-# GET /health
-resource "aws_api_gateway_method" "health_get" {
-  rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.health.id
-  http_method   = "GET"
-  authorization = "NONE"
-}
-
-# GET /health Integration (pointing to ALB)
-resource "aws_api_gateway_integration" "health_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.api.id
-  resource_id             = aws_api_gateway_resource.health.id
-  http_method             = aws_api_gateway_method.health_get.http_method
-  type                    = "HTTP_PROXY"
-  integration_http_method = "GET"
-  uri                     = "http://${aws_lb.ecs_alb.dns_name}/health"  # Use o DNS do seu ALB e o endpoint /health
-}
