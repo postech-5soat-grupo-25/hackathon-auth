@@ -90,7 +90,7 @@ resource "aws_lb_target_group" "hackathon_target_group" {
   target_type = "ip"   # Alterado para "ip" para compatibilidade com o awsvpc network mode
 
   health_check {
-    path                = "/"
+    path                = "/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2

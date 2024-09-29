@@ -6,29 +6,6 @@ resource "aws_cognito_user_pool" "user_pool" {
     pre_sign_up = aws_lambda_function.lambda_pre_signup.arn
   }
 
-  # Auto-verifica o e-mail durante o registro
-  auto_verified_attributes = ["email"]
-
-  # Regras de política de senha para o User Pool
-  password_policy {
-    minimum_length    = 8
-    require_lowercase = true
-    require_numbers   = true
-    require_symbols   = true
-    require_uppercase = true
-  }
-
-  # Template de mensagem de verificação de e-mail
-  verification_message_template {
-    default_email_option = "CONFIRM_WITH_LINK"
-    email_message        = "Clique no link para verificar seu e-mail: {####}"
-    email_subject        = "Health&Med - Verifique seu e-mail para completar o registro"
-  }
-
-  # Configuração de envio de e-mail
-  email_configuration {
-    email_sending_account = "COGNITO_DEFAULT"
-  }
 
   # Atributos customizados
   schema {

@@ -59,6 +59,17 @@ resource "aws_lambda_permission" "api_gateway_invoke_lambda_auth" {
   source_arn = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
 
+# Permissão para o API Gateway invocar a função Lambda
+resource "aws_lambda_permission" "api_gateway_invoke_lambda_login" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_login.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # Especifica o ARN do API Gateway para limitar as permissões
+  source_arn = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
 resource "aws_iam_role" "lambda_email_role" {
   name = "lambda-email-role"
   assume_role_policy = jsonencode({

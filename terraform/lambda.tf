@@ -3,8 +3,8 @@ resource "aws_lambda_function" "lambda_function_auth" {
   handler          = "main.lambda_handler"
   runtime          = "python3.11"
   role             = aws_iam_role.lambda_auth_role.arn
-  filename         = "../source/lambda/auth.zip"
-  source_code_hash = filebase64sha256("../source/lambda/auth.zip")
+  filename         = "../source/lambda/signup.zip"
+  source_code_hash = filebase64sha256("../source/lambda/signup.zip")
 
   # Definindo variáveis de ambiente
   environment {
@@ -64,4 +64,23 @@ resource "aws_lambda_permission" "allow_cognito_invoke" {
   source_arn    = aws_cognito_user_pool.user_pool.arn
 
   depends_on = [aws_cognito_user_pool.user_pool, aws_lambda_function.lambda_pre_signup]
+}
+
+
+
+
+resource "aws_lambda_function" "lambda_login" {
+  filename         = "../source/lambda/login.zip"
+  function_name    = "LambdaLogin"
+  role             = aws_iam_role.lambda_email_role.arn
+  handler          = "main.lambda_handler"
+  runtime          = "python3.11"
+  source_code_hash = filebase64sha256("../source/lambda/login.zip")
+
+  # Definindo variáveis de ambiente
+  environment {
+    variables = {
+      COGNITO_CLIENT_ID    = aws_cognito_user_pool_client.user_pool_client.id
+    }
+  }
 }
