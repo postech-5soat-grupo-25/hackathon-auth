@@ -1,13 +1,10 @@
 #!/bin/bash
 
-
-LAMBDA_FUNCTION_NAME="LambdaLogin"
-
-
-LAMBDA_DIR=./source/lambda/login
+LAMBDA_FUNCTION_NAME="LambdaSignUp"
+LAMBDA_DIR=./source/lambda/signup
 
 # Nome do arquivo ZIP que contém o código Python
-ZIP_FILE="login.zip"
+ZIP_FILE="signup.zip"
 
 # Nome do diretório temporário para empacotamento
 TEMP_DIR="lambda_temp"

@@ -1,13 +1,10 @@
 #!/bin/bash
 
-
-LAMBDA_FUNCTION_NAME="hackathon-auth"
-
-
-LAMBDA_DIR=./source/lambda/pre-signup
+LAMBDA_FUNCTION_NAME="LambdaEmail"
+LAMBDA_DIR=./source/lambda/email
 
 # Nome do arquivo ZIP que contém o código Python
-ZIP_FILE="signup.zip"
+ZIP_FILE="email.zip"
 
 # Nome do diretório temporário para empacotamento
 TEMP_DIR="lambda_temp"
