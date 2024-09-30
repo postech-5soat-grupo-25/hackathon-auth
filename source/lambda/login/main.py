@@ -10,12 +10,8 @@ logger = Logger(service="LambdaLogin")
 def lambda_handler(event, context):
     try:
         client_id = os.environ["COGNITO_CLIENT_ID"]
-
-        resource = event.get('resource', '')
-        http_method = event.get('httpMethod', '')
         body = event.get('body', "")
 
-        logger.info(f"Received event with resource: {resource}, method: {http_method}")
     except Exception as e:
         logger.error(f"Error reading environment variables: {e}")
         return {

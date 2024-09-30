@@ -23,9 +23,6 @@ resource "aws_api_gateway_authorizer" "cognito_authorizer" {
   type            = "COGNITO_USER_POOLS"
 }
 
-
-
-
 # /login
 resource "aws_api_gateway_resource" "login" {
   rest_api_id = aws_api_gateway_rest_api.api.id
@@ -50,10 +47,6 @@ resource "aws_api_gateway_integration" "login_integration" {
   integration_http_method = "POST"
   uri                     = aws_lambda_function.lambda_login.invoke_arn
 }
-
-
-
-
 
 # /email
 resource "aws_api_gateway_resource" "email" {
@@ -80,9 +73,6 @@ resource "aws_api_gateway_integration" "email_integration" {
   uri                     = aws_lambda_function.lambda_function_email.invoke_arn
 }
 
-
-
-
 # /signup
 resource "aws_api_gateway_resource" "signup" {
   rest_api_id = aws_api_gateway_rest_api.api.id
@@ -104,44 +94,14 @@ resource "aws_api_gateway_integration" "signup_integration" {
   resource_id             = aws_api_gateway_resource.signup.id
   http_method             = aws_api_gateway_method.signup_post.http_method
   integration_http_method = "POST"
-  type                    = "AWS_PROXY"                                      
+  type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function_auth.invoke_arn
 }
 
-
-
 # /usuarios-service
-resource "aws_api_gateway_resource" "usuarios-service" {
+resource "aws_api_gateway_resource" "usuarios_service" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "usuarios-service"
 }
 
-
-
-# /paciente
-resource "aws_api_gateway_resource" "paciente" {
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  parent_id   = aws_api_gateway_resource.usuarios-service.id
-  path_part   = "paciente"
-}
-
-# POST /paciente
-resource "aws_api_gateway_method" "paciente_post" {
-  rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.paciente.id
-  http_method   = "POST"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.cognito_authorizer.id
-}
-
-
-# POST /paciente Integration
-resource "aws_api_gateway_integration" "paciente_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.api.id
-  resource_id             = aws_api_gateway_resource.paciente.id
-  http_method             = aws_api_gateway_method.paciente_post.http_method
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"                                      
-  uri                     = aws_lambda_function.lambda_function_auth.invoke_arn
-}

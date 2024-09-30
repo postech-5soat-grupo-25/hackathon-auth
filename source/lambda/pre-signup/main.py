@@ -8,6 +8,7 @@ def lambda_handler(event, context):
         logger.info(str(event))
         event['response']['autoConfirmUser'] = True  # Auto confirma o usuário
         event['response']['autoVerifyEmail'] = True  # Auto verifica o e-mail
+        logger.info(str(event))
     except Exception as e:
         logger.error(e)
         raise e
