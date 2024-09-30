@@ -18,10 +18,10 @@ resource "aws_security_group" "ecs_task_usuarios_service" {
 }
 
 resource "aws_ecs_service" "usuarios_service" {
-  name            = "usuarios-service"
-  cluster         = aws_ecs_cluster.hackathon_ecs_cluster.id
-  launch_type     = "FARGATE"
-  desired_count   = 1
+  name          = "usuarios-service"
+  cluster       = aws_ecs_cluster.hackathon_ecs_cluster.id
+  launch_type   = "FARGATE"
+  desired_count = 1
 
   network_configuration {
     subnets          = [aws_subnet.ecs_subnet_public.id, aws_subnet.ecs_subnet_public_2.id]
@@ -49,20 +49,20 @@ resource "aws_cloudwatch_log_group" "usuario_service_logs" {
 
 resource "aws_ecs_task_definition" "usuarios_task" {
   family                   = "usuarios"
-  network_mode             = "awsvpc"  # Usar o modo de rede awsvpc para Fargate
+  network_mode             = "awsvpc" # Usar o modo de rede awsvpc para Fargate
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "512"    # Ajuste para Fargate, por exemplo: 256 CPU
-  memory                   = "1024"    # Ajuste para Fargate, por exemplo: 512 MB de memória
+  cpu                      = "512"  # Ajuste para Fargate, por exemplo: 256 CPU
+  memory                   = "1024" # Ajuste para Fargate, por exemplo: 512 MB de memória
 
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
 
-  container_definitions    = jsonencode([
+  container_definitions = jsonencode([
     {
-      name  = "usuarios-app"
-      image = "${aws_ecr_repository.usuarios_ecr.repository_url}:latest"
+      name      = "usuarios-app"
+      image     = "${aws_ecr_repository.usuarios_ecr.repository_url}:latest"
       essential = true
-      cpu                      = 512
-      memory                   = 1024
+      cpu       = 512
+      memory    = 1024
 
       logConfiguration = {
         logDriver = "awslogs"
@@ -102,7 +102,7 @@ resource "aws_lb_target_group" "usuarios_service_target_group" {
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = aws_vpc.ecs_vpc.id
-  target_type = "ip"   # Alterado para "ip" para compatibilidade com o awsvpc network mode
+  target_type = "ip" # Alterado para "ip" para compatibilidade com o awsvpc network mode
 
   health_check {
     path                = "/health"

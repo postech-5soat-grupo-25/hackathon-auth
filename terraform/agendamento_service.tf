@@ -1,8 +1,8 @@
 resource "aws_ecs_service" "agendamento_service" {
-  name            = "agendamento-service"
-  cluster         = aws_ecs_cluster.hackathon_ecs_cluster.id
-  launch_type     = "FARGATE"
-  desired_count   = 1
+  name          = "agendamento-service"
+  cluster       = aws_ecs_cluster.hackathon_ecs_cluster.id
+  launch_type   = "FARGATE"
+  desired_count = 1
 
   network_configuration {
     subnets          = [aws_subnet.ecs_subnet_public.id, aws_subnet.ecs_subnet_public_2.id]
@@ -28,19 +28,19 @@ resource "aws_cloudwatch_log_group" "agendamento_service_logs" {
 
 resource "aws_ecs_task_definition" "agendamento_task" {
   family                   = "agendamento"
-  network_mode             = "awsvpc"  # Usar o modo de rede awsvpc para Fargate
+  network_mode             = "awsvpc" # Usar o modo de rede awsvpc para Fargate
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "256"    # Ajuste para Fargate, por exemplo: 256 CPU
-  memory                   = "512"    # Ajuste para Fargate, por exemplo: 512 MB de memória
+  cpu                      = "256" # Ajuste para Fargate, por exemplo: 256 CPU
+  memory                   = "512" # Ajuste para Fargate, por exemplo: 512 MB de memória
 
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
 
-  container_definitions    = jsonencode([
+  container_definitions = jsonencode([
     {
-      name  = "agendamento-app"
-      image = "${aws_ecr_repository.agendamento_ecr.repository_url}:latest"
+      name      = "agendamento-app"
+      image     = "${aws_ecr_repository.agendamento_ecr.repository_url}:latest"
       essential = true
-  
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -87,7 +87,7 @@ resource "aws_lb_target_group" "hackathon_target_group" {
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.ecs_vpc.id
-  target_type = "ip"   # Alterado para "ip" para compatibilidade com o awsvpc network mode
+  target_type = "ip" # Alterado para "ip" para compatibilidade com o awsvpc network mode
 
   health_check {
     path                = "/health"

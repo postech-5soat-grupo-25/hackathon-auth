@@ -80,7 +80,7 @@ resource "aws_lambda_function" "lambda_login" {
   # Definindo variáveis de ambiente
   environment {
     variables = {
-      COGNITO_CLIENT_ID    = aws_cognito_user_pool_client.user_pool_client.id
+      COGNITO_CLIENT_ID = aws_cognito_user_pool_client.user_pool_client.id
     }
   }
 }

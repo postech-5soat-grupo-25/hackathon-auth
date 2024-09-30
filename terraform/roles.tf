@@ -31,12 +31,12 @@ resource "aws_iam_role_policy_attachment" "ecs_task_ecr_pull_policy" {
 resource "aws_iam_policy" "cognito_policy" {
   name        = "CognitoFullAccessPolicy"
   description = "Permissão total para acessar o Cognito"
-  policy      = jsonencode({
+  policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Effect"   : "Allow",
-        "Action"   : [
+        "Effect" : "Allow",
+        "Action" : [
           "cognito-identity:*",
           "cognito-idp:*",
           "cognito-sync:*"

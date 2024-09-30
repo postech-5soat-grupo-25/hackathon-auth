@@ -9,10 +9,10 @@ resource "aws_cognito_user_pool" "user_pool" {
 
   # Atributos customizados
   schema {
-    name                     = "cpf"
-    attribute_data_type      = "String"
-    mutable                  = true
-    required                 = false
+    name                = "cpf"
+    attribute_data_type = "String"
+    mutable             = true
+    required            = false
     string_attribute_constraints {
       min_length = 0
       max_length = 2048
@@ -20,10 +20,10 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   schema {
-    name                     = "crm"
-    attribute_data_type      = "String"
-    mutable                  = true
-    required                 = false
+    name                = "crm"
+    attribute_data_type = "String"
+    mutable             = true
+    required            = false
     string_attribute_constraints {
       min_length = 0
       max_length = 2048

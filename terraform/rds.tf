@@ -1,14 +1,14 @@
 resource "aws_db_subnet_group" "db_subnet_group" {
   name = "db-subnet-group"
-  subnet_ids          = [
-    aws_subnet.ecs_subnet_public.id, 
+  subnet_ids = [
+    aws_subnet.ecs_subnet_public.id,
     aws_subnet.ecs_subnet_public_2.id
   ]
 }
 
 resource "aws_db_parameter_group" "db_parameters" {
-  name        = "db-parameters"
-  family      = "postgres15"
+  name   = "db-parameters"
+  family = "postgres15"
 
   parameter {
     name  = "rds.force_ssl"
@@ -36,5 +36,5 @@ resource "aws_db_instance" "postgres" {
   storage_type           = "gp2"
   skip_final_snapshot    = true
 
-  depends_on = [ aws_db_subnet_group.db_subnet_group ]
+  depends_on = [aws_db_subnet_group.db_subnet_group]
 }
